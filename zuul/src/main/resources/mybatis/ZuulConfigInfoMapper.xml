@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zriot.ebike.mapper.ZuulConfigInfoMapper">
+	
+	<sql id="selectColumns">
+        SELECT DISTINCT
+            a.id,
+            a.service_id,
+            a.path,
+            a.url,
+            a.retryable,
+            a.enabled,
+            a.strip_prefix,
+            a.api_name
+        FROM gateway_api_define a
+    </sql>
+
+	<select id="findAllList" resultType="com.zriot.ebike.entity.ZuulConfigInfo">
+	    <include refid="selectColumns"/>
+    </select>
+	
+	<insert id="createRouteConfig">
+        INSERT INTO gateway_api_define (
+            id,
+            service_id,
+            path,
+            url,
+            retryable,
+            enabled,
+            strip_prefix,
+            api_name
+        ) VALUES (
+            #{id},
+            #{serviceId},
+            #{path},
+            #{url},
+            #{retryable},
+            #{enabled},
+            #{stripPrefix},
+            #{apiName}
+        )
+    </insert>
+	
+	
+</mapper>
