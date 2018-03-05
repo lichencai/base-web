@@ -8,6 +8,5 @@ import com.zriot.ebike.entity.ShopSaler;
 
 public interface IShopSalerService {
 	PageInfo<ShopSaler> queryPage(Paging page, Map<String, Object> query);
-	ShopSaler checkSalerLogin(String mobile, String captcha);
 	ShopSaler getByMobile(String mobile);
 }

@@ -17,13 +17,21 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
+import com.aliyun.mns.client.CloudAccount;
+import com.aliyun.mns.client.MNSClient;
 import com.zriot.ebike.exception.BusinessExceptionMsg;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @SpringBootApplication
 public class SalerApp {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SalerApp.class);
-
+	private static final String accessId = "accessId";
+	private static final String accessKey = "accessKey";
+	private static final String accountEndpoint = "accountEndpoint";
+	
+	
 	@Value("${langues}")
 	private String langues ;
 	
@@ -31,7 +39,7 @@ public class SalerApp {
 		SpringApplication application = new SpringApplication(SalerApp.class);
 		application.setBannerMode(Banner.Mode.OFF);
 		application.run(args);
-		LOGGER.info("Client mobile started!!!");
+		log.info("SalerApp started!!!");
 	}
 	
 	@Bean  
@@ -63,6 +71,14 @@ public class SalerApp {
 		bean.setLocale(locale);
 		bean.setMessageSource(getMessageSource());
 		return bean;
+	}
+	
+	@Bean
+	public MNSClient getMNSClient(){
+		//这里需要传入阿里云短信服务的参数
+		//CloudAccount account = new CloudAccount(accessId, accessKey, accountEndpoint);
+		//return account.getMNSClient();
+		return null;
 	}
 	
 }

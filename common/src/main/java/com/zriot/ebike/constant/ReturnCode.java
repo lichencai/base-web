@@ -6,6 +6,10 @@ public final class ReturnCode {
      */
     public static final String SUCCESS = "0";
     /**
+     * 失败
+     */
+    public static final String FAIL = "-1";
+    /**
      * 400 (错误请求) 服务器不理解请求的语法。
      */
     public static final String BAD_REQUEST = "10001";

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zriot.ebike.mapper.SysAdminMapper">
+
+    <sql id="selectColumns">
+        SELECT
+            a.`id`,
+            a.`admin_id`,
+            a.`login_name`,
+            a.`password`,
+            a.`name`,
+            a.`email`,
+            a.`phone`,
+            a.`mobile`,
+            a.`enabled`,
+            a.`remarks`,
+            a.`create_date`,
+            a.`update_date`
+        FROM sys_admin a
+    </sql>
+
+	<select id="findByLoginName" resultType="com.zriot.ebike.entity.SysAdmin">
+        <include refid="selectColumns"/>
+        WHERE a.`login_name` = #{loginName}
+    </select>
+    
+	
+	<!-- 下面开始没有使用
+	
+    <select id="get" resultType="com.zriot.ebike.entity.TripUser">
+        <include refid="selectColumns"/>
+        WHERE a.`id` = #{id}
+    </select>
+
+    <select id="findList" resultType="com.zriot.ebike.entity.TripUser">
+        <include refid="selectColumns"/>
+        ORDER BY `create_date` DESC
+    </select>
+
+
+    <insert id="insert">
+        INSERT INTO trip_user (
+            `id`,
+            `mobile`,
+            `password`,
+            `nickname`,
+            `gender`,
+            `age`,
+            `photo`,
+            `enabled`,
+            `remarks`,
+            `create_date`,
+            `update_date`
+        ) VALUES (
+            #{id},
+            #{mobile},
+            #{password},
+            #{nickname},
+            #{gender},
+            #{age},
+            #{photo},
+            #{enabled},
+            #{remarks},
+            #{createDate},
+            #{updateDate}
+        )
+    </insert>
+
+    <update id="updateInfo">
+        UPDATE trip_user
+        <set>
+            `nickname` = #{nickname},
+            `gender` = #{gender},
+            `age` = #{age},
+            `update_date` = #{updateDate}
+        </set>
+        WHERE `id` = #{id}
+    </update>
+
+    <update id="updatePasswordByMobile">
+        UPDATE trip_user
+        SET
+            `password` = #{password}
+        WHERE `mobile` = #{mobile}
+    </update>
+
+    <update id="updatePhotoByUser">
+        UPDATE trip_user
+        SET
+            `photo` = #{photo}
+        WHERE `id` = #{userId}
+    </update>
+    
+     -->
+</mapper>

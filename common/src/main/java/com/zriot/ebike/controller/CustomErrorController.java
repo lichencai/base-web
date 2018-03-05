@@ -44,11 +44,16 @@ public class CustomErrorController extends BasicErrorController {
     	Map<String, Object> body = getErrorAttributes(request,
                 isIncludeStackTrace(request, MediaType.ALL));
     	LOGGER.info("error message : {}", body.toString());
+    	String errorMsg = Message.RETURN_FIELD_ERROR;
+    	//  由于请求头没有带Authorization导致的错误(由类MyAuthenticationEntryPoint触发)
+    	if("unauthorized".equals(body.get("message"))) {
+    		errorMsg = "user.not.authorized";
+    	}
         HttpStatus status = this.getStatus(request);
         Map<String, Object> message = new HashMap<>();
         message.put(Message.RETURN_FIELD_CODE, Message.STATUS_CODE_MAP.get(status.value()));
         message.put(Message.RETURN_FIELD_ERROR, "service error");
-        message.put(Message.RETURN_FIELD_ERROR_DESC, businessExceptionMsg.getLocalMsg(Message.RETURN_FIELD_ERROR, null));
+        message.put(Message.RETURN_FIELD_ERROR_DESC, businessExceptionMsg.getLocalMsg(errorMsg, null));
         return new ResponseEntity<>(message, status);
     }
 

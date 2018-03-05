@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +24,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zriot.ebike.constant.Message;
 import com.zriot.ebike.constant.ReturnCode;
 import com.zriot.ebike.entity.ShopSaler;
+import com.zriot.ebike.exception.BusinessException;
 import com.zriot.ebike.security.AuthenticationTokenFilter;
 import com.zriot.ebike.security.utils.TokenUtil;
+import com.zriot.ebike.service.ISalerCaptchaService;
 
+@Validated
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController extends BaseController {
@@ -43,15 +48,21 @@ public class AuthenticationController extends BaseController {
 	 */
 	@Autowired
 	private TokenUtil jwtTokenUtil;
+	
+	@Autowired
+	private ISalerCaptchaService salerCaptchaService;
+	
+	
 	/**
 	 * 用户登录获取token
+	 * @throws BusinessException 
 	 */
 	@PostMapping(value = "/token")
-	public Map<String, Object> createAuthenticationToken(@RequestParam("mobile") String mobile,
-			@RequestParam("captcha") String captcha) {
+	public Map<String, Object> createAuthenticationToken(@NotBlank(message="{param.empty}") @RequestParam("mobile") String mobile,
+			@NotBlank(message="{param.empty}") @RequestParam("captcha") String captcha) throws BusinessException {
 		
-		//TODO  这里要完成对验证码的校验
-		
+		//这里要完成对验证码的校验
+		salerCaptchaService.verificationCode(mobile, captcha);
 		
 		// 完成授权
 		final Authentication authentication = authenticationManager

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 这个不会触发,不知道什么原因
+ * 没有登录访问会触发
  */
 public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
 

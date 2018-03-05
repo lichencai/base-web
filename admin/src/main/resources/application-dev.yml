@@ -1,0 +1,70 @@
+server:
+  port: 8082
+  context-path:  /admin
+# 下面的配置是不通过服务注册中心进行配置的
+ribbon:
+  eureka:
+    enabled:  false
+security:
+  jwt:
+    secret: k09BQnaF
+    expiration: 1728000 #20Days
+aes:
+  encryption: zriot4aes
+spring:
+  application:
+    name:  gateway-service-zuul
+  redis:
+    database: 1
+    host: 172.16.189.201
+    port: 6379
+    password: ASDQWE123
+    timeout: 0
+    pool:
+      max-active: 300 #\u6700\u5927\u8FDE\u63A5\u6570
+      max-idle: 100 #\u6700\u5927\u7A7A\u95F2\u8FDE\u63A5\u6570
+      max-wait: -1 #\u6700\u5927\u7B49\u5F85\u65F6\u95F4
+      min-idle: 0 #\u521D\u59CB\u5316\u8FDE\u63A5\u6570
+  datasource:
+    write:
+      url: jdbc:mysql://172.16.189.201:3306/test?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
+      username: root
+      password: Admin123
+      driver-class-name: com.mysql.jdbc.Driver
+      max-active: 20
+      initial-size: 1
+      min-idle: 3
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 'x' FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall,log4j
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=3000
+      # 合并多个DruidDataSource的监控数据
+      #spring.datasource.useGlobalDataSourceStat=true
+    read:
+      url: jdbc:mysql://172.16.189.201:3306/test?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
+      username: root
+      password: Admin123
+      driver-class-name: com.mysql.jdbc.Driver
+      max-active: 20
+      initial-size: 1
+      min-idle: 3
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 'x' FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall,log4j
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=3000
+      # 合并多个DruidDataSource的监控数据
+      #spring.datasource.useGlobalDataSourceStat=true

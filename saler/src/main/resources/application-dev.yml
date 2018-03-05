@@ -9,6 +9,8 @@ security:
   jwt:
     secret: k09BQnaF
     expiration: 1728000 #20Days
+aes:
+  encryption: zriot4aes
 spring:
   application:
     name:  gateway-service-zuul

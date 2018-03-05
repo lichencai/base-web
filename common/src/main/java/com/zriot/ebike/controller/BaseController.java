@@ -10,6 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -61,6 +65,29 @@ public abstract class BaseController {
             "Invalid Field", Collections3.convertToString(list, ";"));
     }
 
+    /**
+     * 入参bean异常 
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    	BindingResult result = ex.getBindingResult();
+    	//  处理请求参数bean的异常
+    	List<ObjectError> errors = result.getAllErrors();
+    	StringBuffer sb = new StringBuffer();
+    	for(ObjectError error : errors) {
+    		String message = error.getDefaultMessage();
+    		String cloumn = null;
+    		if(error instanceof FieldError) {
+    			cloumn = ((FieldError)error).getField();
+    		}
+    		message = getBusinessExceptionMsg().getLocalMsg(message, null);
+    		sb.append(cloumn).append(":").append(message).append(",");
+    	}
+        return makeErrorMessage(ReturnCode.INVALID_FIELD, "Invalid Field", sb.toString());
+    }
+    
+    
     /**
 	 * 授权失败异常
 	 */

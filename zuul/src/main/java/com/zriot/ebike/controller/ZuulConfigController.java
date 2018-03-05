@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zriot.ebike.config.CustomRouteLocator;
 import com.zriot.ebike.entity.ZuulConfigInfo;
-import com.zriot.ebike.response.Response;
 import com.zriot.ebike.service.ZuulConfigInfoService;
 
 @RestController
@@ -56,8 +55,8 @@ public class ZuulConfigController {
     }
     
     @RequestMapping("/createRouteConfig")
-    public Response<String> createRouteConfig(ZuulConfigInfo info) {
+    public Map<String, Object> createRouteConfig(ZuulConfigInfo info) {
     	zuulConfigInfoService.createRouteConfig(info);
-    	return Response.successResponse();
+    	return null;
     }
 }

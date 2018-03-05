@@ -25,12 +25,6 @@ public class ShopSalerService extends CrudService<ShopSalerMapper, ShopSaler> im
     private SysMenuMapper sysMenuMapper;
 	
 	@Override
-	public ShopSaler checkSalerLogin(String mobile, String captcha) {
-		// TODO 这里要对验证码进行校验
-		return getByMobile(mobile);
-	}
-
-	@Override
 	public ShopSaler getByMobile(String mobile) {
 		ShopSaler saler = getDao().getByMobile(mobile);
 		String salerId = saler.getSalerId();
